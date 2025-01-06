@@ -4,6 +4,7 @@ export function useGeolocation(defaultPosition = null) {
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState(defaultPosition);
   const [error, setError] = useState(null);
+  const [cnt, setCnt] = useState(0);
 
   function getPosition() {
     if (!navigator.geolocation)
@@ -17,6 +18,7 @@ export function useGeolocation(defaultPosition = null) {
           lng: pos.coords.longitude,
         });
         setIsLoading(false);
+        setCnt(1);
       },
       (error) => {
         setError(error.message);
@@ -24,5 +26,5 @@ export function useGeolocation(defaultPosition = null) {
       }
     );
   }
-  return { isLoading, position, error, getPosition };
+  return { isLoading, position, error, getPosition, cnt };
 }

@@ -9,7 +9,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { useCities } from "./contexts/CitiesContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Map.module.css";
 import { useGeolocation } from "../hooks/useGeolocation";
 import Button from "./Button";
@@ -17,22 +17,38 @@ import useUrlPosition from "../hooks/useUrlPosition";
 
 function Map() {
   const { cities } = useCities();
+  const navigate = useNavigate();
   const [mapPosition, setMapPosition] = useState([40, 0]);
+  const isChanged = useRef(null);
   const {
     isLoading: isLoadingPosition,
     position: geoLocationPosition,
     getPosition,
+    cnt: DoesUseCurrentClicked,
   } = useGeolocation();
 
   const [mapLat, mapLng] = useUrlPosition();
+  useEffect(() => {
+    if (
+      isChanged.current === null &&
+      DoesUseCurrentClicked === 1 &&
+      geoLocationPosition
+    ) {
+      navigate(
+        `form?lat=${geoLocationPosition.lat}&lng=${geoLocationPosition.lng}`
+      );
+      isChanged.current = "changed";
+    }
+  }, [DoesUseCurrentClicked, geoLocationPosition, navigate]);
 
   useEffect(() => {
     if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
   }, [mapLat, mapLng]);
 
   useEffect(() => {
-    if (geoLocationPosition)
+    if (geoLocationPosition) {
       setMapPosition([geoLocationPosition.lat, geoLocationPosition.lng]);
+    }
   }, [geoLocationPosition]);
 
   return (
@@ -45,7 +61,7 @@ function Map() {
       <MapContainer
         center={mapPosition}
         className={styles.map}
-        zoom={6}
+        zoom={15}
         scrollWheelZoom={true}
       >
         <TileLayer

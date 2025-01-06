@@ -3,6 +3,12 @@
   align-items: center;
   justify-content: space-between;
 }
+.nv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
 
 .nav ul {
   list-style: none;

@@ -24,3 +24,12 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+.leto {
+  padding: 0.8rem 2rem;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #242a2e;
+  text-transform: uppercase;
+  background-color: #00c46a;
+}
