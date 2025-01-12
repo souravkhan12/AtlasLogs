@@ -6,7 +6,7 @@ import {
   useCallback,
 } from "react";
 
-const BASE_URL = "http://localhost:7000";
+const BASE_URL = "https://country-api-hdqj.onrender.com";
 
 const CityContext = createContext();
 
